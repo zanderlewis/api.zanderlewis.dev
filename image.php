@@ -5,6 +5,9 @@ header('Content-Type: image/png');
 // Generate a cryptographically secure random seed
 $seed = random_int(0, 1000000);
 
+// Seed the random number generator with the generated seed
+mt_srand($seed);
+
 if (!isset($_GET['type'])) {
     $TYPE = 'retro';
 } else {
@@ -23,15 +26,15 @@ if ($TYPE === 'retro') {
     imagefill($im, 0, 0, $bg);
 
     // Choose a random color with a preference for darker shades
-    $color = imagecolorallocate($im, random_int(0, 127), random_int(0, 127), random_int(0, 127));
+    $color = imagecolorallocate($im, mt_rand(0, 127), mt_rand(0, 127), mt_rand(0, 127));
 
     // Get symmetry type from URL parameter (default to vertical)
     $symmetry = isset($_GET['symmetry']) ? $_GET['symmetry'] : 'vertical';
 
     // Create an image with the specified symmetry
     for ($i = 0; $i < ($canvas_size * $canvas_size) / 4; $i++) {
-        $x = random_int(0, ($canvas_size / 2) - 1);
-        $y = random_int(0, $canvas_size - 1);
+        $x = mt_rand(0, ($canvas_size / 2) - 1);
+        $y = mt_rand(0, $canvas_size - 1);
         imagesetpixel($im, $x, $y, $color);
 
         if ($symmetry == 'vertical') {
@@ -72,12 +75,12 @@ if ($TYPE === 'retro') {
 
     // Choose a random color
     // Favoring darker shades
-    $color = imagecolorallocate($im, random_int(0, 127), random_int(0, 127), random_int(0, 127));
+    $color = imagecolorallocate($im, mt_rand(0, 127), mt_rand(0, 127), mt_rand(0, 127));
 
     // Fill the canvas with random pixels
     for ($x = 0; $x < $size; $x++) {
         for ($y = 0; $y < $size; $y++) {
-            if (random_int(0, 1) == 1) {
+            if (mt_rand(0, 1) == 1) {
                 imagesetpixel($im, $x, $y, $color);
             }
         }
@@ -114,8 +117,8 @@ if ($TYPE === 'retro') {
     // Create a maze using the recursive backtracking algorithm
     $maze = array_fill(0, $canvas_size, array_fill(0, $canvas_size, 1));
     $stack = array();
-    $x = random_int(0, $canvas_size - 1);
-    $y = random_int(0, $canvas_size - 1);
+    $x = mt_rand(0, $canvas_size - 1);
+    $y = mt_rand(0, $canvas_size - 1);
     $maze[$x][$y] = 0;
     array_push($stack, array($x, $y));
     
